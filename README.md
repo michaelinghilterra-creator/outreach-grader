@@ -30,6 +30,8 @@ Pick the recipient's level (IC → C-Suite), function, channel, and goal. The to
 
 You get an overall score (1-100), a one-line verdict, and 8 dimension scores with explanations that quote your actual words. No generic advice. Every note is tied to something specific you wrote.
 
+![Score results showing 38/100 with dimension cards](docs/screenshots/02-score-results.png)
+
 **Step 3 — Rewrite.**
 
 Click "Rewrite this for me." The tool fixes every issue it found, respects the channel's length norms, and gives you a breakdown of what changed and why.
