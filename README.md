@@ -4,7 +4,7 @@
 
 Runs locally on your machine. Claude calls go through your own Claude subscription (the same one you use for Claude Code). No API key. No extra cost.
 
-![Score results showing 38/100 with dimension cards](docs/screenshots/02-score-results.png)
+![Outreach Grader — grade your cold outreach](docs/og-image.png)
 
 ---
 
