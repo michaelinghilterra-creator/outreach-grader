@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Grade your cold outreach message in seconds. Get a score, specific feedback, and an AI-powered rewrite.">
+  <title>Outreach Grader</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="header-brand">Outreach Grader</span>
+      <span class="header-tagline">Grade. Fix. Rewrite.</span>
+    </div>
+    <p class="header-sub">Powered by Claude &middot; runs on your subscription &middot; by <a href="https://linkedin.com/in/michaelinghilterra" class="header-link" target="_blank" rel="noopener">Michael Inghilterra</a></p>
+  </header>
+
+  <main class="main">
+
+    <!-- Column 1: Context selectors -->
+    <div class="selectors-col">
+
+      <div class="form-section-label">
+        <span class="form-section-num">01</span>
+        <span class="form-section-title">Who are you sending to?</span>
+      </div>
+
+      <div class="selector-group">
+        <span class="selector-label">Level</span>
+        <div class="pills" role="radiogroup" aria-label="Recipient level" data-field="recipient_level">
+          <button class="pill" role="radio" aria-checked="false" data-value="ic">IC</button>
+          <button class="pill" role="radio" aria-checked="false" data-value="manager">Manager</button>
+          <button class="pill" role="radio" aria-checked="false" data-value="director">Director</button>
+          <button class="pill" role="radio" aria-checked="false" data-value="vp">VP</button>
+          <button class="pill" role="radio" aria-checked="false" data-value="c_suite">C-Suite</button>
+        </div>
+      </div>
+
+      <div class="selector-group">
+        <span class="selector-label">Function</span>
+        <div class="pills" role="radiogroup" aria-label="Recipient function" data-field="recipient_function">
+          <button class="pill" role="radio" aria-checked="false" data-value="sales">Sales</button>
+          <button class="pill" role="radio" aria-checked="false" data-value="revops">RevOps</button>
+          <button class="pill" role="radio" aria-checked="false" data-value="marketing">Marketing</button>
+          <button class="pill" role="radio" aria-checked="false" data-value="finance">Finance</button>
+          <button class="pill" role="radio" aria-checked="false" data-value="hr">HR / People</button>
+          <button class="pill" role="radio" aria-checked="false" data-value="engineering">Engineering</button>
+          <button class="pill" role="radio" aria-checked="false" data-value="other">Other</button>
+        </div>
+      </div>
+
+      <div class="selector-group">
+        <span class="selector-label">Industry <span class="optional">(optional)</span></span>
+        <div class="pills" role="radiogroup" aria-label="Industry" data-field="industry">
+          <button class="pill" role="radio" aria-checked="false" data-value="saas">SaaS / Tech</button>
+          <button class="pill" role="radio" aria-checked="false" data-value="financial_services">Finance</button>
+          <button class="pill" role="radio" aria-checked="false" data-value="healthcare">Healthcare</button>
+          <button class="pill" role="radio" aria-checked="false" data-value="manufacturing">Manufacturing</button>
+          <button class="pill" role="radio" aria-checked="false" data-value="professional_services">Prof. Services</button>
+          <button class="pill" role="radio" aria-checked="false" data-value="other">Other</button>
+        </div>
+      </div>
+
+      <div class="form-section-label">
+        <span class="form-section-num">02</span>
+        <span class="form-section-title">What are you sending?</span>
+      </div>
+
+      <div class="selector-group">
+        <span class="selector-label">Channel</span>
+        <div class="pills" role="radiogroup" aria-label="Channel" data-field="channel">
+          <button class="pill" role="radio" aria-checked="false" data-value="cold_email">Cold email</button>
+          <button class="pill" role="radio" aria-checked="false" data-value="linkedin_dm">LinkedIn DM</button>
+          <button class="pill" role="radio" aria-checked="false" data-value="linkedin_connection">Connection note</button>
+        </div>
+      </div>
+
+      <div class="selector-group">
+        <span class="selector-label">Goal</span>
+        <div class="pills" role="radiogroup" aria-label="Goal" data-field="cta_type">
+          <button class="pill" role="radio" aria-checked="false" data-value="meeting">Book a meeting</button>
+          <button class="pill" role="radio" aria-checked="false" data-value="reply">Get a reply</button>
+          <button class="pill" role="radio" aria-checked="false" data-value="resource">View a resource</button>
+          <button class="pill" role="radio" aria-checked="false" data-value="referral">Get a referral</button>
+          <button class="pill" role="radio" aria-checked="false" data-value="connect">Connect</button>
+        </div>
+      </div>
+
+      <div class="selector-group model-group">
+        <span class="selector-label">Analysis engine</span>
+        <div class="pills" role="radiogroup" aria-label="Model" data-field="model">
+          <button class="pill" role="radio" aria-checked="true" data-value="sonnet">Sonnet <span class="model-tag">Fast</span></button>
+          <button class="pill pill-opus" role="radio" aria-checked="false" data-value="opus">Opus <span class="model-tag">Deep</span></button>
+        </div>
+        <p class="model-hint" id="modelHint">Fast, great for everyday outreach.</p>
+      </div>
+
+    </div><!-- /selectors-col -->
+
+    <!-- Column 2: Message -->
+    <div class="message-col">
+
+      <div class="form-section-label">
+        <span class="form-section-num">03</span>
+        <span class="form-section-title">Paste your message</span>
+      </div>
+
+      <div class="message-area">
+        <div id="subjectLineGroup" class="subject-line-group" hidden>
+          <label class="field-label" for="subjectLine">Subject line</label>
+          <input type="text" id="subjectLine" class="subject-input" placeholder="Your email subject line" maxlength="200">
+        </div>
+        <textarea id="messageText" class="message-textarea" placeholder="Paste your cold outreach message here..." maxlength="5000"></textarea>
+        <div id="charCounter" class="char-counter" hidden><span id="charCount">0</span> / 300 characters</div>
+      </div>
+
+      <div id="inputError" class="input-error" hidden></div>
+      <button id="gradeBtn" class="btn-primary" type="button">Grade my message</button>
+
+    </div><!-- /message-col -->
+
+    <!-- Column 3: Results -->
+    <div class="results-col">
+    <section class="results-panel" id="resultsPanel">
+
+      <div class="empty-state" id="emptyState">
+        <div class="empty-ring">--</div>
+        <p class="empty-label">Your score will appear here</p>
+        <ul class="empty-steps">
+          <li>Select who you're sending to</li>
+          <li>Choose your channel and goal</li>
+          <li>Paste your message and grade</li>
+        </ul>
+      </div>
+
+      <div id="resultsContent" hidden>
+
+        <div class="overall-score-card" id="overallScoreCard">
+          <div class="score-ring-wrap">
+            <svg class="score-ring" viewBox="0 0 148 148" aria-hidden="true">
+              <circle class="ring-track" cx="74" cy="74" r="66"/>
+              <circle class="ring-fill" id="ringFill" cx="74" cy="74" r="66" stroke-dasharray="414.7" stroke-dashoffset="414.7"/>
+            </svg>
+            <div class="score-center">
+              <div class="score-number" id="scoreNumber">--</div>
+              <div class="score-denom">/100</div>
+            </div>
+          </div>
+          <div class="score-meta">
+            <div class="score-label" id="scoreLabel"></div>
+            <button class="btn-secondary" id="rewriteBtn" type="button">Rewrite this for me</button>
+          </div>
+        </div>
+
+        <div class="dimensions-grid" id="dimensionsGrid"></div>
+
+        <div class="fixes-card" id="fixesCard">
+          <div class="fixes-header">
+            <div class="fixes-title">Top fixes</div>
+          </div>
+          <ol class="fixes-list" id="fixesList"></ol>
+        </div>
+
+        <button class="btn-text" id="gradeAgainBtn" type="button">Grade another message</button>
+
+      </div><!-- /resultsContent -->
+
+      <!-- Coaching view — shown after rewrite -->
+      <div id="coachingPanel" class="coaching-panel" hidden>
+        <div class="coaching-header">
+          <div class="coaching-label">Improved message</div>
+        </div>
+
+        <div id="coachSubjectRow" class="coach-subject-row" hidden>
+          <div class="coach-subject-inner">
+            <span class="coach-subject-label">Subject line</span>
+            <div id="coachSubject" class="rewrite-subject"></div>
+          </div>
+          <button class="btn-copy-sm" id="copySubjectBtn" type="button">Copy</button>
+        </div>
+
+        <div class="coach-body-wrap">
+          <div class="coach-body" id="coachBody"></div>
+          <button class="btn-copy" id="copyBtn" type="button">Copy body</button>
+        </div>
+
+        <div class="coaching-section">
+          <div class="coaching-section-title">What we changed</div>
+          <div id="coachChanges" class="coaching-changes"></div>
+        </div>
+
+        <div class="coaching-section">
+          <div class="coaching-section-title">Carry this forward</div>
+          <div id="coachLessons" class="coaching-lessons"></div>
+        </div>
+
+        <button class="btn-text" id="gradeAgainBtn2" type="button">Grade another message</button>
+      </div><!-- /coachingPanel -->
+
+    </section>
+    </div><!-- /results-col -->
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
