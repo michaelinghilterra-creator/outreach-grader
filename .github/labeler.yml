@@ -1,0 +1,35 @@
+"🔧 server":
+  - changed-files:
+      - any-glob-to-any-file:
+          - server.mjs
+          - lib/**
+
+"🎨 frontend":
+  - changed-files:
+      - any-glob-to-any-file:
+          - public/**
+
+"🧪 tests":
+  - changed-files:
+      - any-glob-to-any-file:
+          - test/**
+
+"📄 docs":
+  - changed-files:
+      - any-glob-to-any-file:
+          - docs/**
+          - "README*.md"
+          - CONTRIBUTING.md
+          - CODE_OF_CONDUCT.md
+          - SECURITY.md
+
+"📦 dependencies":
+  - changed-files:
+      - any-glob-to-any-file:
+          - package.json
+          - package-lock.json
+
+"⚙️ ci":
+  - changed-files:
+      - any-glob-to-any-file:
+          - .github/**
