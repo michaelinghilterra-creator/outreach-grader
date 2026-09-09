@@ -1,0 +1,31 @@
+name: Welcome
+
+on:
+  pull_request_target:
+    types: [opened]
+  issues:
+    types: [opened]
+
+jobs:
+  welcome:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/first-interaction@1c4688942c71f71d4f5502a26ea67c331730fa4d # v3
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_message: |
+            Welcome to outreach-grader, @${{ github.actor }}! Thanks for your first PR.
+
+            A few things to know:
+            - Tests will run automatically — check the status below
+            - Your PR title should follow [Conventional Commits](https://www.conventionalcommits.org/) (it becomes the commit message on merge)
+            - Read [CONTRIBUTING.md](https://github.com/michaelinghilterra-creator/outreach-grader/blob/master/CONTRIBUTING.md) if you haven't
+
+            We'll review your PR soon.
+          issue_message: |
+            Thanks for opening your first issue, @${{ github.actor }}! We'll take a look soon.
+
+            In the meantime, check [GitHub Discussions](https://github.com/michaelinghilterra-creator/outreach-grader/discussions) if you have setup or how-to questions.
