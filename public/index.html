@@ -72,6 +72,24 @@
         </div>
       </div>
 
+      <div class="selector-group contact-research-group">
+        <span class="selector-label">Contact <span class="optional">(optional)</span></span>
+        <div class="contact-fields">
+          <input type="text" id="contactName" class="contact-input" placeholder="First Last" maxlength="100">
+          <input type="text" id="companyName" class="contact-input" placeholder="Company" maxlength="100">
+        </div>
+        <button id="researchBtn" class="btn-ghost" type="button" hidden>Research this contact</button>
+        <p class="research-privacy-note" hidden id="researchPrivacyNote">Public info only. Nothing is saved.</p>
+      </div>
+
+      <div id="researchCard" class="research-card" hidden>
+        <div class="research-card-header">
+          <span class="research-card-title">Contact intel</span>
+          <button class="btn-clear" id="clearResearchBtn" type="button">Clear</button>
+        </div>
+        <div id="researchCardBody"></div>
+      </div>
+
       <div class="form-section-label">
         <span class="form-section-num">02</span>
         <span class="form-section-title">What are you sending?</span>

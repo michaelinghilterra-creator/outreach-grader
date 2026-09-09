@@ -4,7 +4,8 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import { grade } from './lib/prompt.mjs';
 import { rewrite } from './lib/prompt.mjs';
-import { validateGrade, validateRewrite } from './lib/validate.mjs';
+import { research } from './lib/research.mjs';
+import { validateGrade, validateResearch, validateRewrite } from './lib/validate.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -30,6 +31,14 @@ const aiLimiter = rateLimit({
   message: { error: 'Hourly limit reached. Try again in an hour.' },
 });
 
+const researchLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  limit: 10,
+  standardHeaders: 'draft-7',
+  legacyHeaders: false,
+  message: { error: 'Research limit reached. Try again in an hour.' },
+});
+
 app.use('/api/', globalLimiter);
 
 app.post('/api/grade', aiLimiter, async (req, res) => {
@@ -51,6 +60,17 @@ app.post('/api/rewrite', aiLimiter, async (req, res) => {
     res.json(result);
   } catch (e) {
     res.status(500).json({ error: e.message || 'Rewrite failed. Try again.' });
+  }
+});
+
+app.post('/api/research', researchLimiter, async (req, res) => {
+  const err = validateResearch(req.body);
+  if (err) return res.status(400).json({ error: err });
+  try {
+    const result = await research(req.body);
+    res.json(result);
+  } catch (e) {
+    res.status(500).json({ error: e.message || 'Research failed. Try again.' });
   }
 });
 
