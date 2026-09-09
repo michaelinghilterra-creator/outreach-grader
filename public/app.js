@@ -6,6 +6,7 @@ const state = {
   cta_type: null,
   gradeResult: null,
   model: 'sonnet',
+  research_intel: null,
 };
 
 const $ = (selector) => document.querySelector(selector);
@@ -52,6 +53,9 @@ function requestBody() {
     model: state.model,
   };
   if (state.channel === 'cold_email') body.subject_line = $('#subjectLine').value.trim();
+  if (state.research_intel !== null && !state.research_intel.nothing_found) {
+    body.research_intel = state.research_intel;
+  }
   return body;
 }
 
@@ -67,6 +71,102 @@ async function postJSON(url, body) {
   const data = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(data.error || 'Something went wrong. Try again.');
   return data;
+}
+
+function renderResearchCard(data) {
+  const body = $('#researchCardBody');
+  body.replaceChildren();
+
+  if (data.nothing_found) {
+    const nothing = document.createElement('p');
+    nothing.className = 'research-nothing';
+    nothing.textContent = 'Nothing significant found publicly. The grade will use your message context only.';
+    body.append(nothing);
+  } else {
+    const addSignalSection = (labelText, signals) => {
+      if (!Array.isArray(signals) || signals.length === 0) return;
+      const label = document.createElement('div');
+      label.className = 'research-section-label';
+      label.textContent = labelText;
+      const list = document.createElement('ul');
+      list.className = 'research-signals';
+      signals.forEach((signal) => {
+        const item = document.createElement('li');
+        item.textContent = signal;
+        list.append(item);
+      });
+      body.append(label, list);
+    };
+
+    addSignalSection('Contact signals', data.contact_signals);
+    addSignalSection('Company signals', data.company_signals);
+
+    if (Array.isArray(data.suggested_hooks) && data.suggested_hooks.length > 0) {
+      const label = document.createElement('div');
+      label.className = 'research-section-label';
+      label.textContent = 'Suggested hooks';
+      const hooks = document.createElement('div');
+      hooks.className = 'research-hooks';
+      data.suggested_hooks.forEach((hook) => {
+        const pill = document.createElement('div');
+        pill.className = 'research-hook-pill';
+        pill.textContent = hook;
+        hooks.append(pill);
+      });
+      body.append(label, hooks);
+    }
+  }
+
+  if (typeof data.search_note === 'string' && data.search_note.trim()) {
+    const note = document.createElement('p');
+    note.className = 'research-note';
+    note.textContent = data.search_note;
+    body.append(note);
+  }
+
+  $('#researchCard').hidden = false;
+}
+
+async function researchContact() {
+  const button = $('#researchBtn');
+  const progressMessages = [
+    'Searching company news...',
+    'Checking job postings...',
+    'Looking for public activity...',
+    'Synthesizing intel...',
+  ];
+  let progressIndex = 0;
+  button.disabled = true;
+  button.textContent = progressMessages[progressIndex];
+  $('#inputError').hidden = true;
+
+  const progressInterval = setInterval(() => {
+    if (progressIndex < progressMessages.length - 1) {
+      progressIndex += 1;
+      button.textContent = progressMessages[progressIndex];
+    }
+  }, 8000);
+
+  const request = {
+    contact_name: $('#contactName').value.trim(),
+    company: $('#companyName').value.trim(),
+    model: state.model,
+  };
+  if (state.recipient_level !== null) request.recipient_level = state.recipient_level;
+  if (state.recipient_function !== null) request.recipient_function = state.recipient_function;
+  if (state.industry !== null) request.industry = state.industry;
+
+  try {
+    const data = await postJSON('/api/research', request);
+    state.research_intel = data;
+    renderResearchCard(data);
+  } catch (err) {
+    showError(err.message);
+  } finally {
+    clearInterval(progressInterval);
+    button.disabled = false;
+    button.textContent = 'Research this contact';
+  }
 }
 
 async function handleGrade() {
@@ -272,6 +372,19 @@ document.addEventListener('DOMContentLoaded', () => {
   $('#rewriteBtn').addEventListener('click', handleRewrite);
   $('#copyBtn').addEventListener('click', copyBody);
   $('#copySubjectBtn')?.addEventListener('click', copySubject);
+  const updateResearchVisibility = () => {
+    const hasContact = $('#contactName').value.trim() && $('#companyName').value.trim();
+    $('#researchBtn').hidden = !hasContact;
+    $('#researchPrivacyNote').hidden = !hasContact;
+  };
+  $('#contactName').addEventListener('input', updateResearchVisibility);
+  $('#companyName').addEventListener('input', updateResearchVisibility);
+  $('#researchBtn').addEventListener('click', researchContact);
+  $('#clearResearchBtn').addEventListener('click', () => {
+    state.research_intel = null;
+    $('#researchCard').hidden = true;
+    $('#researchCardBody').replaceChildren();
+  });
   function resetForm() {
     clearResults();
     $('#gradeBtn').disabled = false;
