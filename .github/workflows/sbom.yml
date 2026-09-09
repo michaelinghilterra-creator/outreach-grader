@@ -1,0 +1,27 @@
+name: Source SBOM Generation
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  sbom:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      # anchore/sbom-action attaches the generated SBOM directly to the release
+      # that triggered this run (upload-release-assets defaults to true, set
+      # explicitly here as the source of truth). Do not add a separate
+      # `gh release upload` step for the same file — it will fail with "asset
+      # under the same name already exists".
+      - name: Generate source SBOM (SPDX) and attach to release
+        uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610 # v0
+        with:
+          artifact-name: outreach-grader-source-sbom.spdx.json
+          format: spdx-json
+          output-file: outreach-grader-source-sbom.spdx.json
+          upload-release-assets: true
