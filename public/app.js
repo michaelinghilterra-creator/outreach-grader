@@ -363,6 +363,13 @@ document.addEventListener('DOMContentLoaded', () => {
       $('#charCount').textContent = length;
       $('#charCounter').classList.toggle('over-limit', length > 295);
     }
+    if (!$('#contactName').value.trim()) {
+      const match = $('#messageText').value.match(/^(?:Hi|Hey|Hello|Dear)\s+([A-Z][a-zA-Z'-]+)/);
+      if (match) {
+        $('#contactName').value = match[1];
+        updateResearchVisibility();
+      }
+    }
   });
   const modelHints = {
     sonnet: 'Fast, great for everyday outreach.',
