@@ -150,17 +150,11 @@ button, input, textarea { font: inherit; }
 }
 
 .selectors-col,
+.message-col,
 .results-col {
   height: 100%;
   overflow-y: auto;
   padding: 20px 2px 28px;
-}
-
-.message-col {
-  height: 100%;
-  overflow-y: auto;
-  padding: 20px 2px 28px;
-}
   scrollbar-width: thin;
   scrollbar-color: var(--border-hi) transparent;
 }
