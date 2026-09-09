@@ -1,0 +1,30 @@
+name: PR Title
+
+# Squash-merge uses the PR title as the commit message on master, and Release
+# Please reads that subject to decide the version bump and changelog entry. A
+# title without a Conventional Commit prefix merges cleanly but bumps nothing
+# and adds no changelog line.
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  conventional-title:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the PR title is a Conventional Commit
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          TYPES='feat|fix|chore|docs|refactor|test|ci|perf|build|style|revert'
+          if printf '%s' "$TITLE" | grep -qE "^($TYPES)(\([a-zA-Z0-9 ._/-]+\))?!?: .+"; then
+            echo "OK: $TITLE"
+            exit 0
+          fi
+          echo "::error title=PR title is not a Conventional Commit::\"$TITLE\" does not start with a recognized type ($TYPES). Since this repo squash-merges, the title becomes the commit message on master and Release Please reads it. Example: fix: handle empty message body in scorer"
+          exit 1
