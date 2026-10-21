@@ -12,10 +12,6 @@ jobs:
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version: '24'
-      # lib/prompt.mjs imports the sibling ../ai-text-hygiene repo; pin it to a commit.
-      - run: |
-          git clone https://github.com/michaelinghilterra-creator/ai-text-hygiene.git ../ai-text-hygiene
-          git -C ../ai-text-hygiene checkout d950a12d709641ab835a5dba6c7e72432d558b2d
       - run: npm ci
       # Fail the build on a known high-severity advisory.
       - run: npm audit --audit-level=high

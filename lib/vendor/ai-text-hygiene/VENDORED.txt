@@ -1,0 +1,1 @@
+Vendored from https://github.com/michaelinghilterra-creator/ai-text-hygiene at commit d950a12d709641ab835a5dba6c7e72432d558b2d (src/*.mjs). Update by re-copying.
