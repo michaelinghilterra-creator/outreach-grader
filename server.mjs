@@ -74,7 +74,7 @@ app.post('/api/research', researchLimiter, async (req, res) => {
   }
 });
 
-app.get('/{*splat}', (req, res) => {
+app.get('/{*splat}', globalLimiter, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
