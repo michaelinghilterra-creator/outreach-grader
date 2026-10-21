@@ -1,0 +1,16 @@
+ai-text-hygiene
+Copyright (c) 2026 Michael Inghilterra
+Licensed under the MIT License (see LICENSE).
+
+This project's inventory of invisible / format Unicode codepoints (zero-width
+characters, bidirectional controls, variation selectors, and related format
+characters) was seeded by reference to:
+
+  watermarks-remover
+  https://github.com/guillaumemeyer/watermarks-remover
+  Copyright (c) 2026 watermarks-remover contributors
+  Licensed under the MIT License.
+
+The implementation here is an independent, dependency-free rewrite in JavaScript
+with a different scope and API. No source code was copied; the debt is the
+codepoint inventory and the general approach, gratefully acknowledged.
