@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/michaelinghilterra-creator/outreach-grader/compare/outreach-grader-v1.1.0...outreach-grader-v1.1.1) (2026-11-04)
+
+
+### Bug Fixes
+
+* **deps:** bump body-parser to 2.4.0 (CVE-2026-111181) and qs to 6.17.1 ([#5](https://github.com/michaelinghilterra-creator/outreach-grader/issues/5)) ([45286a4](https://github.com/michaelinghilterra-creator/outreach-grader/commit/45286a4a9b2c8a64c355551337026adc378d5b59))
+
 ## [1.1.0](https://github.com/michaelinghilterra-creator/outreach-grader/compare/outreach-grader-v1.0.0...outreach-grader-v1.1.0) (2026-10-21)
 
 
